@@ -14,21 +14,21 @@
 import PackageDescription
 
 let package = Package(
-  name: "SE0000_PackageName",
+  name: "SE0000_ModifyValue",
   products: [
     .library(
-      name: "SE0000_PackageName",
-      targets: ["SE0000_PackageName"]),
+      name: "SE0000_ModifyValue",
+      targets: ["SE0000_ModifyValue"]),
   ],
   dependencies: [
   ],
   targets: [
     .target(
-      name: "SE0000_PackageName",
+      name: "SE0000_ModifyValue",
       dependencies: []),
     
     .testTarget(
-      name: "SE0000_PackageNameTests",
-      dependencies: ["SE0000_PackageName"]),
+      name: "SE0000_ModifyValueTests",
+      dependencies: ["SE0000_ModifyValue"]),
   ]
 )

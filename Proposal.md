@@ -55,28 +55,24 @@ Unfortunately often times the required modification is more complex than a singl
 ```swift
 // only update optional's wrapped value, if not nil:
 if var modifiedValue = optional {
-    // imagine here a fairly complex modification that
-    // suggests the use of a temporary variable binding
+    // ...
     optional = modifiedValue
 }
 
 // only update a dictionary's value if its keys exists:
 if var modifiedValue = dictionary[key] {
-    // imagine here a fairly complex modification that
-    // suggests the use of a temporary variable binding
+    // ...
     dictionary[key] = modifiedValue
 }
 
 // update a dictionary's value, inserting a default value if its key doesn't yet exist:
 var modifiedValue = dictionary[key] ?? …
-// imagine here a fairly complex modification that
-// suggests the use of a temporary variable binding
+// ...
 dictionary[key] = modifiedValue
 
 // update an array's element:
 var modifiedElement = array[index]
-// imagine here a fairly complex modification that
-// suggests the use of a temporary variable binding
+// ...
 array[index] = modifiedElement
 ```
 

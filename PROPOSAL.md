@@ -515,6 +515,8 @@ The following naming schemes were considered (and subsequently rejected in favor
 
 ### Alternative APIs
 
+#### `Dictionary.modifyValue(forKey:_:)`
+
 Instead of passing the arguably somehwat obscure and difficult to work with `inout Value?`
 (that is without the addition of `Optional.modifyIfNotNil()`)
 one could have the method only call the closure if the key already exists in the dictionary
@@ -536,3 +538,40 @@ extension Dictionary {
 
 We rejected this alternative on the basis of it being significantly different in functionality to the corresponding `subscript(key:)` operator
 including the aspect that —unlike the proposed variant— it would not allow for inserting/removing values.
+
+### Open questions
+
+#### Support for `Result`
+
+A somewhat obvious logical addition to the already discussed API would be an equivalent API for `Result`.
+Due to not being aware of a way to switch on an enum, while consuming the passed-in value we however couldn't figure out
+how to make an API like `Result.modifySuccess(_:)` happen for `Result`, without having it cause unwanted value copies.
+
+The provided preview implementation currently makes use of a sentinel value for `Optional.modifyIfNotNil`
+that is used as stand-in while operating on the moved-out associated case value.
+
+It would be preferable to have access to consuming (or `inout`) pattern matching.
+
+Assuming such a solution exists, an API like this would be desirable for `Result`:
+
+```swift
+extension Result {
+    @inlinable
+    @inline(__always)
+    public mutating func modifySuccess(
+        _ modifications: (inout Success) throws -> Void
+    ) rethrows {
+        // implementation omitted
+    }
+
+    @inlinable
+    @inline(__always)
+    public mutating func modifyFailure(
+        _ modifications: (inout Failure) throws -> Void
+    ) rethrows {
+        // implementation omitted
+    }
+}
+```
+
+In this case it might also be desirable to rename `Optional.modifyIfNotNil` to a more consistent `Optional.modifyWrapped` or ``Optional.modifySome` to ease API discoverability, following the [principle of least astonishment](https://en.wikipedia.org/wiki/Principle_of_least_astonishment).

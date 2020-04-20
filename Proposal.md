@@ -3,15 +3,15 @@
 * Proposal: [SE-NNNN](NNNN-filename.md)
 * Authors: [Vincent Esche](https://github.com/regexident)
 * Review Manager: TBD
-* Status: **Awaiting implementation**
+* Status: **Implemented**
 
-*During the review process, add the following fields as needed:*
+<!-- *During the review process, add the following fields as needed:*
 
 * Implementation: [apple/swift#NNNNN](https://github.com/apple/swift/pull/NNNNN) or [apple/swift-evolution-staging#NNNNN](https://github.com/apple/swift-evolution-staging/pull/NNNNN)
 * Decision Notes: [Rationale](https://forums.swift.org/), [Additional Commentary](https://forums.swift.org/)
 * Bugs: [SR-NNNN](https://bugs.swift.org/browse/SR-NNNN), [SR-MMMM](https://bugs.swift.org/browse/SR-MMMM)
 * Previous Revision: [1](https://github.com/apple/swift-evolution/blob/...commit-ID.../proposals/NNNN-filename.md)
-* Previous Proposal: [SE-XXXX](XXXX-filename.md)
+* Previous Proposal: [SE-XXXX](XXXX-filename.md) -->
 
 ## Introduction
 
@@ -238,7 +238,7 @@ print(hues)
 
 ### Adding `.modifyIfNotNil(…)` to `Optional`
 
-We further more propose adding the following API to `Optional`:
+We propose adding the following API to `Optional`:
 
 ```swift
 extension Optional {
@@ -391,7 +391,7 @@ Important: Unlike the `subscript` equivalents this API will ALWAYS insert a valu
 
 ### Adding `.modifyElement(…)` to `MutableCollection`
 
-We further more propose adding the following API to `MutableCollection`:
+We propose adding the following API to `MutableCollection`:
 
 ```swift
 /// Accesses the element at the specified position and passes it to the provided closure for modifications.
@@ -438,9 +438,7 @@ N/A
 
 ### Alternative names
 
-* #### Alternative names
-
-Other names could be:
+The following naming schemes were considered (and subsequently rejected in favor of what is being proposed):
 
   * `modifyWrapped` / … / …
 
@@ -466,12 +464,13 @@ Other names could be:
     mutating func updateValue(_ value: Value, forKey key: Key) -> Value?
     ```
 
-### Alternative implementations
+### Alternative APIs
 
 Instead of passing the arguably somehwat obscure and difficult to work with `inout Value?`
 (that is without the addition of `Optional.modifyIfNotNil()`)
 one could have the method only call the closure if the key already exists in the dictionary
-(hence removing the immediate need for a nested call to `Optional.modifyIfNotNil()`):
+(hence removing the immediate need for a nested call to `Optional.modifyIfNotNil()`
+when modifying an existing value within `Dictionary.modifyValue(forKey:_:)`):
 
 ```swift
 extension Dictionary {

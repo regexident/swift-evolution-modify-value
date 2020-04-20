@@ -17,7 +17,7 @@ import SE0000_ModifyValue
 final class DictionaryModifyValueTests: XCTestCase {
     // MARK: - With Default
 
-    func testModifyValueForKeyDefaultModifications() {
+    func testModifyValueForKeyDefault() {
         var hues = ["Heliotrope": 296, "Coral": 16]
 
         hues.modifyValue(forKey: "Coral", default: 16) { value in
@@ -33,9 +33,23 @@ final class DictionaryModifyValueTests: XCTestCase {
         XCTAssertEqual(hues, ["Heliotrope": 296, "Coral": 18, "Cerise": 330])
     }
 
+    func testModifyValueForKeyDefaultDoesNotCopy() throws {
+        var spies: [String: CopySpy] = [
+            "spy": .init(expectation: self.expectation(
+                description: "expected call to `mutate()` method"
+            )),
+        ]
+
+        try spies.modifyValue(forKey: "spy", default: .init()) { spy in
+            XCTAssertNoThrow(try spy.mutate())
+        }
+
+        self.waitForExpectations(timeout: 1.0)
+    }
+
     // MARK: - Without Default
 
-    func testModifyValueForKeyModifications() {
+    func testModifyValueForKey() {
         var hues = ["Heliotrope": 296, "Coral": 16]
 
         hues.modifyValue(forKey: "Coral") { value in
@@ -60,6 +74,22 @@ final class DictionaryModifyValueTests: XCTestCase {
         XCTAssertEqual(hues, ["Heliotrope": 296, "Coral": 18, "Aquamarine": 156])
     }
 
+    func testModifyValueForKeyDoesNotCopy() throws {
+        var spies: [String: CopySpy] = [
+            "spy": .init(expectation: self.expectation(
+                description: "expected call to `mutate()` method"
+            )),
+        ]
+
+        try spies.modifyValue(forKey: "spy") { spyOrNil in
+            try spyOrNil.modifyIfNotNil { spy in
+                XCTAssertNoThrow(try spy.mutate())
+            }
+        }
+
+        self.waitForExpectations(timeout: 1.0)
+    }
+
     // MARK: - Value Semantics
 
     struct CounterStruct: Equatable, ExpressibleByIntegerLiteral, CustomStringConvertible {
@@ -76,7 +106,7 @@ final class DictionaryModifyValueTests: XCTestCase {
         mutating func increment() { self.count += 1 }
     }
 
-    func testModifyValueForKeyModificationsWithStructValue() {
+    func testModifyValueForKeyWithStructValue() {
         var structs: [String: CounterStruct] = [
             "foo": 0,
         ]
@@ -102,7 +132,7 @@ final class DictionaryModifyValueTests: XCTestCase {
         XCTAssertEqual(structs, ["foo": 0, "baz": 2])
     }
 
-    func testModifyValueForKeyDefaultModificationsWithStructValue() {
+    func testModifyValueForKeyDefaultWithStructValue() {
         var structs: [String: CounterStruct] = [
             "foo": 0,
         ]
@@ -141,7 +171,7 @@ final class DictionaryModifyValueTests: XCTestCase {
         }
     }
 
-    func testModifyValueForKeyModificationsWithClassValue() {
+    func testModifyValueForKeyWithClassValue() {
         var classes: [String: CounterClass] = [
             "foo": 0,
         ]
@@ -167,7 +197,7 @@ final class DictionaryModifyValueTests: XCTestCase {
         XCTAssertEqual(classes, ["foo": 0, "baz": 2])
     }
 
-    func testModifyValueForKeyDefaultModificationsWithClassValue() {
+    func testModifyValueForKeyDefaultWithClassValue() {
         var classes: [String: CounterClass] = [
             "foo": 0,
         ]

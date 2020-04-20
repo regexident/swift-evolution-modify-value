@@ -15,7 +15,7 @@ import XCTest
 import SE0000_ModifyValue
 
 final class MutableCollectionModifyElementTests: XCTestCase {
-    func testModifyElementAtModifications() {
+    func testModifyElementAt() {
         struct Hue: Equatable {
             let name: String
             var value: Int
@@ -34,5 +34,19 @@ final class MutableCollectionModifyElementTests: XCTestCase {
         XCTAssertEqual(hues[1], Hue("Coral", 18))
 
         XCTAssertEqual(hues, [Hue("Heliotrope", 296), Hue("Coral", 18)])
+    }
+
+    func testModifyElementAtDoesNotCopy() throws {
+        var array: [CopySpy] = [
+            .init(expectation: self.expectation(
+                description: "expected call to `mutate()` method"
+            )),
+        ]
+
+        try array.modifyElement(at: 0) { spy in
+            XCTAssertNoThrow(try spy.mutate())
+        }
+
+        self.waitForExpectations(timeout: 1.0)
     }
 }

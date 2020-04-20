@@ -24,4 +24,16 @@ final class OptionalModifyIfNotNilTests: XCTestCase {
         noNumber.modifyIfNotNil { $0 *= 2 }
         XCTAssertEqual(noNumber, nil)
     }
+
+    func testModifyIfNotNilDoesNotCopy() throws {
+        var spyOrNil: CopySpy? = .init(expectation: self.expectation(
+            description: "expected call to `mutate()` method"
+        ))
+
+        try spyOrNil.modifyIfNotNil { spy in
+            XCTAssertNoThrow(try spy.mutate())
+        }
+
+        self.waitForExpectations(timeout: 1.0)
+    }
 }

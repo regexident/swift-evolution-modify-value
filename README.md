@@ -1,31 +1,3 @@
-# Swift Evolution Staging
-
-This repository is the starting point for Swift Evolution proposal
-implementations. See the [Swift Evolution Process][se-process] to learn about
-how ideas are pitched, refined, and then proposed for inclusion in the Swift
-standard library.
-
-[se-process]: https://github.com/apple/swift-evolution/blob/master/process.md
-
-Complete this checklist when preparing your implementation:
-  
-- In `Package.swift` and in the _Introduction_ section below, rename your module
-  to use a short, camel-cased name of your proposed feature (ex: `SE0000_MyFeature`).
-  
-- Rename the folders and files in the `Sources` and `Tests` directories to match
-  your new module name.
-  
-- Implement your proposed feature in the `Sources` directory, and add tests in
-  the `Tests` directory.
-  
-- Make sure the Swift project code header is at the beginning of every source
-  file.
-  
-- Finish editing the section below, and then remove this checklist and
-  everything else above the line. That's it!
-
---------------------------------------------------------------------------------
-
 # Package Name
 
 > **Note:** This package is a part of a Swift Evolution proposal for
@@ -33,21 +5,56 @@ Complete this checklist when preparing your implementation:
   production code at this time.
 
 * Proposal: [SE-NNNN](https://github.com/apple/swift-evolution/proposals/NNNN-filename.md)
-* Author(s): [Author 1](https://github.com/author1), [Author 2](https://github.com/author1)
-
+* Author(s): [Vincent Esche](https://github.com/regexident)
 
 ## Introduction
 
-A short description of the proposed library. 
-Provide examples and describe how they work.
+This proposal adds the following APIs to the Swift standard library:
+
+* `Optional`:
+  * `modifyIfNotNil(_:)`
+* `Dictionary`:
+  * `modifyValue(forKey:_:)`
+  * `modifyValue(forKey:default:_:)`
+* `MutableCollection`:
+  * `modifyElement(atIndex:_:)`
+
+The methods provide a no-surprises API for efficiently modifying a collection's specific value, preventing the user from accidentally triggering unwanted copy-on-write semantics, reducing the number of required key-lookups, while also making the user's intention clearer (i.e. "modify a value" vs. "get/remove a value, then insert a modified value").
 
 ```swift
-import SE0000_PackageName
+import SE0000_ModifyValue
 
-print(Placeholder.message)
-// Prints("Hello, world!")
+var hues = ["Heliotrope": 296, "Coral": 16]
+
+hues.modifyValue(forKey: "Heliotrope", default: 296) { value in
+    value += 2
+}
+print(hues["Coral"] as Any)
+// Prints "Optional(18)"
+
+hues.modifyValue(forKey: "Cerise", default: 328) { value in
+    value += 2
+}
+print(hues["Cerise"] as Any)
+// Prints "Optional(330)"
+
+hues.modifyValue(forKey: "Coral") { value in
+    value.modifyIfNotNil { value in
+        value += 2
+    }
+}
+print(hues["Coral"] as Any)
+// Prints "Optional(18)"
+
+hues.modifyValue(forKey: "Aquamarine") { value in
+    value = 156
+}
+print(hues["Aquamarine"] as Any)
+// Prints "Optional(156)"
+
+print(hues)
+// Prints ["Aquamarine": 156, "Heliotrope": 296, "Coral": 18, "Cerise": 330]
 ```
-
 
 ## Usage
 
@@ -56,8 +63,7 @@ add the following to your `Package.swift` file's dependencies:
 
 ```swift
 .package(
-    url: "https://github.com/apple/swift-evolution-staging.git",
-    .branch("SE0000_PackageName")),
+    url: "https://github.com/regexident/swift-evolution-modify-value.git",
+    .branch("SE0000_ModifyValue")
+),
 ```
-
-

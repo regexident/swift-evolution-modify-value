@@ -43,9 +43,14 @@ extension Optional {
         // Then we clear the remaining use in `self`,
         // which essentially moves the value out of self, temporarily:
         self = nil
-        // Then we apply our modifications:
+
+        // Make sure to put the modified value back in in the end,
+        // no matter what happens during modifications:
+        defer {
+            self = value
+        }
+
+        // Then we try to apply our modifications:
         try modifications(&value)
-        // And put the modified value back in:
-        self = value
     }
 }

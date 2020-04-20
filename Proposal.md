@@ -434,6 +434,8 @@ The method `Dictionary.modifyValue(forKey:_:)` allows for efficiently inserting,
 
 Important: Unlike the `subscript` equivalents this API will ALWAYS insert a value on mutation regardless of whether the value's type is a `struct`/`enum` or `class`, predictably.
 
+A possible implementation for these methods on `Dictionary` might simply call the `modify` subscript accessor of the dictionary.
+
 ### Adding `.modifyElement(…)` to `MutableCollection`
 
 We propose adding the following API to `MutableCollection`:
@@ -466,6 +468,8 @@ public mutating func modifyElement(
 This adds alternative support for index-based modifications on `Dictionary`, as well as general support for all other index-based collections.
 
 Most index-based collections do not allow for temporarily nulling the collection's internal stored value in order to avoid copying, which suggests the addition of `.modifyElement(at:)`.
+
+A possible implementation for these methods on `MutableCollection` might simply call the `modify` subscript accessor of the collection.
 
 ## Source compatibility
 

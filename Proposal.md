@@ -50,7 +50,56 @@ dictionary["bar", default: 0] += 1
 array[42] += 1
 ```
 
-Unfortunately often times the required modification is more complex than a single expression:
+Unfortunately however often times the required modification is more complex than a single expression and due to extern constraints you are being forced into a certain order of operations, or need to pass the value in question to some secondary API immediately before or after modification (but only if a modification took place), which makes direct usage of the `subscript` combined with optional chaining inapplicable.
+
+<details>
+<summary>Contrived example</summary>
+
+```swift
+protocol ControllerDelegate: AnyObject {
+    func didUpdateState(_ state: State, forKey key: String)
+}
+
+class Controller {
+    weak var delegate: ControllerDelegate?
+
+    var statesByKey: [String: State] = [:] {
+        didSet {
+            // respond to added/removed states
+        }
+    }
+
+    func updateStates() {
+        let updates: Updates = .init(updatesByKey: [:])
+
+        for (key, update) in updates.updatesByKey {
+            if var state = self.statesByKey[key] {
+                self.delegate?.willUpdateState(state, forKey: key)
+                state.update(update)
+                self.statesByKey[key] = state
+                self.delegate?.didUpdateState(state, forKey: key)
+            }
+
+            // vs.:
+            // self.statesByKey.modifyValue(forKey: key) { state in
+            //     self.delegate?.willUpdateState(state, forKey: key)
+            //     state.update(update)
+            //     self.delegate?.didUpdateState(state, forKey: key)
+            // }
+        }
+    }
+}
+```
+
+</details>
+
+In these situations a common workaround is to split the operation into three phases:
+
+* getting the value
+* modifying the value
+* setting the value
+
+Which, if applied to above code example would look something like this:
 
 ```swift
 // only update optional's wrapped value, if not nil:

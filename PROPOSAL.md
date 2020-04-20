@@ -321,8 +321,6 @@ While the use/necessity of `value.modifyIfNotNil { value in … }` may seem a bi
 
 Additional need for `Optional.modifyIfNotNil(…)` is given by the fact that `inout` is only applicable in argument position. This effectively prevents the copy-efficient unwrapping of a `Dictionary`'s `inout Value?`  to `inout Value` with existing conventional language constructs in Swift.
 
-Given that a key-value pair for a given key might not yet be present in a dictionary the closure passed to `Dictionary.modifyValue(forKey:_:)` retrieves an `inout Value?`. As shown above, unwrapping it with a normal `if var value = valueOrNil { … }` would cause a copy (unless `valueOrNil = nil` was to then be called immediately within the block, before mutating `value`), hence the use of `valueOrNil.modifyIfNotNil { value in … }`.
-
 ### Adding `.modifyValue(…)` to `Dictionary`
 
 We propose adding the following API to `Dictionary`:
@@ -432,6 +430,8 @@ The method `Dictionary.modifyValue(forKey:default:_:)` allows for efficiently mo
 
 The method `Dictionary.modifyValue(forKey:_:)` allows for efficiently inserting, modifying or inserting a value mirroring the functionality and semantics of `Dictionary.subscript(key:)`.
 
+Given that a key-value pair for a given key might not yet be present in a dictionary the closure passed to `Dictionary.modifyValue(forKey:_:)` retrieves an `inout Value?`. As shown above, unwrapping it with a normal `if var value = valueOrNil { … }` would cause a copy, hence the use of `valueOrNil.modifyIfNotNil { value in … }`.
+
 Important: Unlike the `subscript` equivalents this API will ALWAYS insert a value on mutation regardless of whether the value's type is a `struct`/`enum` or `class`, predictably.
 
 A possible implementation for these methods on `Dictionary` might simply call the `modify` subscript accessor of the dictionary.
@@ -493,6 +493,12 @@ The following naming schemes were considered (and subsequently rejected in favor
 
     While being more consistent (`Optional.Wrapped` -> `modifyWrapped`, `Dictionary.Value` -> `modifyValue`) we rejected `modifyWrapped` in favor of `modifyIfNotNil`,
     based on the reasoning that `…Wrapped` could be falsely misunderstood for a wrapping operation and `modifyIfNotNil` being rather nice to read and clear in intention.
+
+    Another argument in favor of `modifyIfNotNil` is the fact that many people using Swift are still unaware of the fact that `T?` is an instance of `Optional<T>`, rather than a special language construct, let alone what a `Wrapped` value has to do with `T?`, which is nowhere to be found on `T`.
+
+  * `modifySome` / … / …
+
+    After `modifyIfNotNil` this (i.e. `modifySome`) is probably the strongest contender, when it comes to naming `Option.modify…(…)`.
 
   * `withWrappedIfNotNil` / `withValue` / `withElement`
 

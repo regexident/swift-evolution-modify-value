@@ -17,7 +17,7 @@ This proposal adds the following APIs to the Swift standard library:
   * `modifyValue(forKey:_:)`
   * `modifyValue(forKey:default:_:)`
 * `MutableCollection`:
-  * `modifyElement(atIndex:_:)`
+  * `modifyElement(at:_:)`
 
 The methods provide a no-surprises API for efficiently modifying a collection's specific value, preventing the user from accidentally triggering unwanted copy-on-write semantics, reducing the number of required key-lookups, while also making the user's intention clearer (i.e. "modify a value" vs. "get/remove a value, then insert a modified value").
 

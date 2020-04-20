@@ -14,7 +14,7 @@ import XCTest
 
 import SE0000_ModifyValue
 
-final class OptionalModifyIfNotNilTests: XCTestCase {
+final class OptionalModifyTests: XCTestCase {
     func testModifyIfNotNil() {
         var possibleNumber: Int? = Int("42")
         possibleNumber.modifyIfNotNil { $0 *= 2 }

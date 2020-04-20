@@ -14,7 +14,7 @@ import XCTest
 
 import SE0000_ModifyValue
 
-final class DictionaryModifyValueTests: XCTestCase {
+final class DictionaryModifyTests: XCTestCase {
     // MARK: - With Default
 
     func testModifyValueForKeyDefault() {

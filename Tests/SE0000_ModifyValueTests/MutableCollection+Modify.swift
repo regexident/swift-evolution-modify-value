@@ -14,7 +14,7 @@ import XCTest
 
 import SE0000_ModifyValue
 
-final class MutableCollectionModifyElementTests: XCTestCase {
+final class MutableCollectionModifyTests: XCTestCase {
     func testModifyElementAt() {
         struct Hue: Equatable {
             let name: String

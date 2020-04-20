@@ -234,47 +234,6 @@ print(hues)
 // Prints "[\"Aquamarine\": 156, \"Heliotrope\": 296, \"Coral\": 18, \"Cerise\": 330]"
 ```
 
-## Prior art
-
-The Swift community has found itself lean towards semi-atomic closure-based APIs several times before:
-
-* ### `CATransaction` vs. `UIView.animate(…)`
-
-  ```swift
-  CATransaction.begin()
-  CATransaction.setAnimationDuration(duration)
-  // code
-  CATransaction.commit()
-  ```
-
-  vs.
-
-  ```swift
-  UIView.animate(withDuration: duration) {
-      // code
-  }
-  ```
-
-* ### `DispatchSemaphore` vs. `DispatchQueue`
-
-  ```swift
-  let semaphore = DispatchSemaphore(value: 0)
-  semaphore.wait()
-  // code
-  semaphore.signal()
-  ```
-
-  vs.
-
-  ```swift
-  let queue = DispatchQueue(label: …)
-  queue.sync {
-      // code
-  }
-  ```
-
-… where the closure-based variant is commonly considered less brittle and maintenance heavy and more idiomatic.
-
 ## Detailed design
 
 ### Adding `.modifyIfNotNil(…)` to `Optional`

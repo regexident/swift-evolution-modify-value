@@ -24,9 +24,11 @@ extension MutableCollection {
     ///     print(streets[1])
     ///     // Prints "Butler Street"
     ///
-    /// - Parameter position: The position of the element to access. `position`
-    ///   must be a valid index of the collection that is not equal to the
-    ///   `endIndex` property.
+    /// - Parameters:
+    ///   - position: The position of the element to access. `position`
+    ///     must be a valid index of the collection that is not equal to the
+    ///     `endIndex` property.
+    ///   - modifications: The modifications to apply to the element.
     ///
     /// - Complexity: O(1)
     public mutating func modifyElement(

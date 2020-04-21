@@ -40,6 +40,7 @@ extension Optional {
     ) rethrows {
         // We extract the value out of self, or return early:
         guard var value = self else { return }
+        
         // Then we clear the remaining use in `self`,
         // which essentially moves the value out of self, temporarily:
         self = nil

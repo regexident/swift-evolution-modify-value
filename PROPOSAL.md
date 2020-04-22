@@ -41,7 +41,7 @@ For situations where the value's type already provides a mutating method (or ope
 // only increment if not nil:
 valueOrNil? += 1
 
-// only increment a dictionary's value if its keys exists:
+// only increment a dictionary's value if its key exists:
 dictionary["foo"]? += 1
 // increment a dictionary's value, inserting a default value if its key doesn't yet exist:
 dictionary["bar", default: 0] += 1
@@ -108,7 +108,7 @@ if var modifiedValue = valueOrNil {
     valueOrNil = modifiedValue
 }
 
-// only update a dictionary's value if its keys exists:
+// only update a dictionary's value if its key exists:
 if var modifiedValue = dictionary[key] {
     // ...
     dictionary[key] = modifiedValue
@@ -202,7 +202,7 @@ valueOrNil.modifyIfNotNil { value in
     // ...
 }
 
-// only update a dictionary's value if its keys exists:
+// only update a dictionary's value if its key exists:
 dictionary.modifyValue(forKey: key) { value in
     // ...
 }

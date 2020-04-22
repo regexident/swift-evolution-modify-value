@@ -576,4 +576,4 @@ extension Result {
 }
 ```
 
-In this case it might also be desirable to rename `Optional.modifyIfNotNil` to a more consistent `Optional.modifyWrapped` or ``Optional.modifySome` to ease API discoverability, following the [principle of least astonishment](https://en.wikipedia.org/wiki/Principle_of_least_astonishment).
+In this case it might also be desirable to rename `Optional.modifyIfNotNil` to a more consistent `Optional.modifyWrapped` or `Optional.modifySome` to ease API discoverability, following the [principle of least astonishment](https://en.wikipedia.org/wiki/Principle_of_least_astonishment).

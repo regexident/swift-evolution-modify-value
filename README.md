@@ -64,6 +64,6 @@ add the following to your `Package.swift` file's dependencies:
 ```swift
 .package(
     url: "https://github.com/regexident/swift-evolution-modify-value.git",
-    .branch("SE0000_ModifyValue")
+    .branch("master")
 ),
 ```

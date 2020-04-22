@@ -4,7 +4,7 @@
   inclusion in the Swift standard library, and is not intended for use in
   production code at this time.
 
-* Proposal: [SE-NNNN](https://github.com/apple/swift-evolution/proposals/NNNN-filename.md) ( 👉[Draft](./Proposal.md))
+* Proposal: [SE-NNNN](https://github.com/apple/swift-evolution/proposals/NNNN-filename.md) ( 👉[Draft](./PROPOSAL.md))
 * Author(s): [Vincent Esche](https://github.com/regexident)
 
 ## Introduction

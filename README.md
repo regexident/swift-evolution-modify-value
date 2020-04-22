@@ -26,7 +26,7 @@ import SE0000_ModifyValue
 
 var hues = ["Heliotrope": 296, "Coral": 16]
 
-hues.modifyValue(forKey: "Heliotrope", default: 296) { value in
+hues.modifyValue(forKey: "Coral", default: 16) { value in
     value += 2
 }
 print(hues["Coral"] as Any)

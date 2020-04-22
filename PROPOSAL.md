@@ -39,7 +39,7 @@ For situations where the value's type already provides a mutating method (or ope
 
 ```swift
 // only increment if not nil:
-optional? += 1
+valueOrNil? += 1
 
 // only increment a dictionary's value if its keys exists:
 dictionary["foo"]? += 1
@@ -103,9 +103,9 @@ Which, if applied to above code example would look something like this:
 
 ```swift
 // only update optional's wrapped value, if not nil:
-if var modifiedValue = optional {
+if var modifiedValue = valueOrNil {
     // ...
-    optional = modifiedValue
+    valueOrNil = modifiedValue
 }
 
 // only update a dictionary's value if its keys exists:
@@ -198,7 +198,7 @@ By addition of the proposed methods `modifyValue(forKey:_:)` and `modifyValue(fo
 
 ```swift
 // only update optional's wrapped value, if not nil:
-optional.modifyIfNotNil { value in
+valueOrNil.modifyIfNotNil { value in
     // ...
 }
 

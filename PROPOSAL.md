@@ -199,26 +199,22 @@ By addition of the proposed methods `modifyValue(forKey:_:)` and `modifyValue(fo
 ```swift
 // only update optional's wrapped value, if not nil:
 optional.modifyIfNotNil { value in
-    // imagine here a fairly complex modification that
-    // suggests the use of a temporary variable binding
+    // ...
 }
 
 // only update a dictionary's value if its keys exists:
 dictionary.modifyValue(forKey: key) { value in
-    // imagine here a fairly complex modification that
-    // suggests the use of a temporary variable binding
+    // ...
 }
 
 // update a dictionary's value, inserting a default value if its key doesn't yet exist:
 dictionary.modifyValue(forKey: key, default: …) { value in
-    // imagine here a fairly complex modification that
-    // suggests the use of a temporary variable binding
+    // ...
 }
 
 // update an array's element:
 array.modifyElement(at: index) { value in
-    // imagine here a fairly complex modification that
-    // suggests the use of a temporary variable binding
+    // ...
 }
 ```
 

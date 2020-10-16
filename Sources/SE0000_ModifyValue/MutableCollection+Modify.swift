@@ -32,6 +32,8 @@ extension MutableCollection {
     ///
     /// - Complexity: O(1)
     public mutating func modifyElement(
+    @inlinable
+    @inline(__always)
         at index: Index,
         _ modifications: (inout Element) throws -> Void
     ) rethrows {

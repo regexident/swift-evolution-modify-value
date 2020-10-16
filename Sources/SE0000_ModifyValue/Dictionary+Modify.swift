@@ -52,11 +52,11 @@ extension Dictionary {
     ///   - modifications: The modifications to apply to the key's associated value.
     @inlinable
     @inline(__always)
-    public mutating func modifyValue(
+    public mutating func modifyValue<R>(
         forKey key: Key,
         default defaultValue: @autoclosure () -> Value,
-        _ modifications: (inout Value) throws -> Void
-    ) rethrows {
+        _ modifications: (inout Value) throws -> R
+    ) rethrows -> R {
         try modifications(&self[key, default: defaultValue()])
     }
 
@@ -103,10 +103,10 @@ extension Dictionary {
     ///   - modifications: The modifications to apply to the key's associated value.
     @inlinable
     @inline(__always)
-    public mutating func modifyValue(
+    public mutating func modifyValue<R>(
         forKey key: Key,
-        _ modifications: (inout Value?) throws -> Void
-    ) rethrows {
+        _ modifications: (inout Value?) throws -> R
+    ) rethrows -> R {
         try modifications(&self[key])
     }
 }

@@ -31,12 +31,12 @@ extension MutableCollection {
     ///   - modifications: The modifications to apply to the element.
     ///
     /// - Complexity: O(1)
-    public mutating func modifyElement(
     @inlinable
     @inline(__always)
+    public mutating func modifyElement<R>(
         at index: Index,
-        _ modifications: (inout Element) throws -> Void
-    ) rethrows {
+        _ modifications: (inout Element) throws -> R
+    ) rethrows -> R {
         return try modifications(&self[index])
     }
 }
